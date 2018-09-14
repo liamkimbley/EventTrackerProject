@@ -1,1 +1,3 @@
 rootProject.name = 'EventTrackerREST'
+
+includeFlat 'EventTrackerJPA'

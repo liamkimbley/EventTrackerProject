@@ -130,3 +130,9 @@ Java Model Exception: Java Model Status [Cannot nest 'EventTrackerJPA/src/main/j
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:60)
 !SUBENTRY 1 org.eclipse.jdt.core 4 964 2018-09-14 15:52:28.398
 !MESSAGE Cannot nest 'EventTrackerJPA/src/main/java' inside 'EventTrackerJPA/src'. To enable the nesting exclude 'main/' from 'EventTrackerJPA/src'
+
+!ENTRY org.eclipse.jface.text 2 0 2018-09-14 15:56:16.135
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.boolean'
+
+!ENTRY org.eclipse.jface.text 2 0 2018-09-14 15:56:16.493
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.boolean'

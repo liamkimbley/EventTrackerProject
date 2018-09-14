@@ -1,1 +1,3 @@
 ## Event Tracker
+
+### Technologies Used
