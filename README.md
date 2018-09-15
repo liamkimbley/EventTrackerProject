@@ -1,10 +1,11 @@
 ## Event Tracker
 
-This is our second exposure to Spring REST technologies. For the initial project, we were required to make a simple database of our choosing and connect to it using Spring REST. As we learn JavaScript, we will come back and use that technology to build the front end. For now, we will verify that REST is working and connected properly to the database using Postman. 
+This is our second exposure to Spring REST technologies. For the initial project, we were required to make a simple database of our choosing and connect to it using Spring REST. As we learn JavaScript, we will come back and use that technology to build the front end. For now, we will verify that REST is working and connected properly to the database using Postman. We can use @Query to return specific results from the database, but we need to use Spring REST to perform the full CRUD operations.
 
 ### Update
 
 ### Technologies Used
+* CRUD
 * Postman
 * MySQL
 * Spring REST
