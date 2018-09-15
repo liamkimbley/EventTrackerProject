@@ -23,9 +23,14 @@ public class ExpenseController {
 	@Autowired
 	private ExpenseService expServ;
 	
-	@RequestMapping(path="posts", method=RequestMethod.GET)
+	@RequestMapping(path="expenses", method=RequestMethod.GET)
 	public List<Expense> index(){
 		return expServ.index();
+	}
+	
+	@RequestMapping(path="expenses/total", method=RequestMethod.GET)
+	public double total(){
+		return expServ.findTotalExpenses();
 	}
 	
 	@RequestMapping(path="expenses/{eid}", method=RequestMethod.GET)
@@ -38,7 +43,7 @@ public class ExpenseController {
 		return expServ.findByName(keyword);
 	}
 	
-	@RequestMapping(path="expenses/search/{date}", method=RequestMethod.GET)
+	@RequestMapping(path="expenses/search/date/{date}", method=RequestMethod.GET)
 	public List<Expense> getExpensesByDate(@PathVariable Date date) {
 		return expServ.findByDate(date);
 	}

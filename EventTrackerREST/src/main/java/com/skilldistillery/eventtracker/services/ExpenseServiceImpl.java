@@ -39,15 +39,10 @@ public class ExpenseServiceImpl implements ExpenseService {
 			if (expense.getReason() != null && !expense.getReason().equals("")) {
 				exp.setReason(expense.getReason());
 			}
-			if (expense.getDate() != null) {
-				exp.setDate(expense.getDate());
-			}
-			if (expense.getDate() == null) {
-				exp.setDate(new Date());
-			}
+			exp.setDate(new Date());
 		}
 
-		return exp;
+		return expRepo.saveAndFlush(exp);
 
 	}
 
@@ -79,12 +74,6 @@ public class ExpenseServiceImpl implements ExpenseService {
 			if (expense.getReason() != null && !expense.getReason().equals("")) {
 				exp.setReason(expense.getReason());
 			}
-			if (expense.getDate() != null) {
-				exp.setDate(expense.getDate());
-			}
-			if (expense.getDate() == null) {
-				exp.setDate(new Date());
-			}
 			return expRepo.saveAndFlush(exp);
 
 		}
@@ -109,12 +98,6 @@ public class ExpenseServiceImpl implements ExpenseService {
 			}
 			if (expense.getReason() != null && !expense.getReason().equals("")) {
 				exp.setReason(expense.getReason());
-			}
-			if (expense.getDate() != null) {
-				exp.setDate(expense.getDate());
-			}
-			if (expense.getDate() == null) {
-				exp.setDate(new Date());
 			}
 			return expRepo.saveAndFlush(exp);
 
@@ -149,8 +132,14 @@ public class ExpenseServiceImpl implements ExpenseService {
 
 	@Override
 	public List<Expense> findByName(String name) {
-		return expRepo.findByName(name);
+		return expRepo.findByNameContains(name);
 
+	}
+
+	@Override
+	public double findTotalExpenses() {
+		return expRepo.queryForTotalSpent();
+		
 	}
 
 }

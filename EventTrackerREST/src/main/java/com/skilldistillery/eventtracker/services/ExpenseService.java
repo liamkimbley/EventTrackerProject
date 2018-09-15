@@ -16,5 +16,5 @@ public interface ExpenseService {
 	public List<Expense> findByPriceRange(double low, double high);
 	public List<Expense> findByDate(Date date);
 	public List<Expense> findByName(String name);
-
+	public double findTotalExpenses();
 }

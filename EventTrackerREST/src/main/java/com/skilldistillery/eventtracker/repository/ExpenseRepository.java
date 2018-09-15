@@ -12,10 +12,13 @@ import com.skilldistillery.event.Expense;
 
 public interface ExpenseRepository extends JpaRepository<Expense, Integer>{
 	
-	public List<Expense> findByName(String name);
+	public List<Expense> findByNameContains(String name);
 	public List<Expense> findByDate(Date date);
 	
 	@Query("SELECT e FROM Expense e WHERE e.price BETWEEN :low AND :high")
 	public List<Expense> queryForPostByPriceRange(@Param("low") double lowest, @Param("high") double highest);
+	
+	@Query("SELECT SUM(e.price) FROM Expense e")
+	public double queryForTotalSpent();
 
 }
