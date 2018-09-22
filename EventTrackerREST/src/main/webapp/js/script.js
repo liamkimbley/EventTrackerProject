@@ -67,24 +67,32 @@ function pageLoad(e) {
 								 let id = element.id;
 								 let pdiv = document.getElementById("detail");
 
-								 document.getElementById("date").textContent = "Date: " + str.substr(0, 10);
+								 document.getElementById("entryId").textContent = data[i].id;
+								 document.getElementById("date").textContent = str.substr(0, 10);
 								 document.getElementById("name").textContent = data[i].name;
-								 document.getElementById("price").textContent = "Amount Spent: $" + data[i].price;
-								 document.getElementById("reason").textContent ="Reason: " + data[i].reason;
-								 document.getElementById("desc").textContent = "Description: " + data[i].description;
+								 document.getElementById("price").textContent = data[i].price;
+								 document.getElementById("reason").textContent = data[i].reason;
+								 document.getElementById("desc").textContent = data[i].description;
 
-								 if (pdiv.lastElementChild.name !== "delete"){
-									 let subInput = document.createElement("input");
-								   subInput.name = "edit";
-								   subInput.type = "submit";
-								   subInput.value = "Edit Log";
-								   pdiv.appendChild(subInput);
-									 let delInput = document.createElement("input");
-								   delInput.name = "delete";
-								   delInput.type = "submit";
-								   delInput.value = "Delete Log";
-								   pdiv.appendChild(delInput);
-							 }
+								 document.getElementById("ebtn").style = "";
+								 document.getElementById("dbtn").style = "";
+
+								//  if (pdiv.lastElementChild.name !== "delete"){
+								// 	 let subInput = document.createElement("input");
+								//    subInput.name = "edit";
+								//    subInput.type = "submit";
+								// 	 subInput.id = "subId";
+								// 	 subInput.onClick = function(e){
+								// 		 console.log("edit");
+								// 	 };
+								//    subInput.value = "Edit Entry";
+								//    pdiv.appendChild(subInput);
+								// 	 let delInput = document.createElement("input");
+								//    delInput.name = "delete";
+								//    delInput.type = "submit";
+								//    delInput.value = "Delete Entry";
+								//    pdiv.appendChild(delInput);
+							 // }
 					 })
         }
         console.log(data);
@@ -194,18 +202,14 @@ document.addEventListener('click', function(e) {
         }
       };
     }
-		if (e.target && e.target.name === 'edit') {
-	    e.preventDefault();
-			console.log("edit");
-		}
-		if (e.target && e.target.name === 'delete') {
-	    e.preventDefault();
-			console.log("delete");
-		}
 
   };
 }); // ********************
 
+var editBtn = document.getElementById('ebtn');
+editBtn.addEventListener("click", editEntry);
+var delBtn = document.getElementById('dbtn');
+delBtn.addEventListener("click", deleteEntry);
 
 function formPop(str, dub) {
   let arr = [];
@@ -217,3 +221,95 @@ function formPop(str, dub) {
   };
   return arr;
 };
+
+function editEntry(e){
+	e.preventDefault();
+	let ed = e.target;
+	let eid = ed.id;
+	console.log("edit");
+	let dive = document.getElementById("detail");
+	let id = dive.firstElementChild.textContent;
+	let name = dive.firstElementChild.nextElementSibling.nextElementSibling.textContent;
+	let price = dive.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.textContent;
+	let reason = dive.lastElementChild.previousElementSibling.previousElementSibling.previousElementSibling.textContent;
+	let desc = dive.lastElementChild.previousElementSibling.previousElementSibling.textContent;
+	console.log(price);
+	let pre = parseFloat(price);
+	let err = formPop(name, pre);
+
+	console.log(name);
+	console.log(reason);
+	if (err.length > 0) {
+		let divForm = document.getElementById("formDiv");
+		let ol = document.createElement("ol");
+
+		for (let i = 0; i < err.length; i++) {
+			var li = document.createElement("li");
+			li.textContent = err[i];
+			li.style.color = "red";
+			ol.appendChild(li);
+			divForm.nextElementSibling.appendChild(ol);
+			// console.log(err[i]);
+		}
+	} else {
+		// console.log(name);
+		// console.log(reason);
+		// let form = ;
+		// console.log(form);
+		let formJson = JSON.stringify({
+			"name": name,
+			"price": price,
+			"description": desc,
+			"reason": reason
+		});
+		var xhr = new XMLHttpRequest();
+		xhr.withCredentials = true;
+		console.log(formJson);
+		xhr.open('PUT', "/api/expenses/" + id);
+		xhr.setRequestHeader("Content-Type", "application/json");
+		console.log("1 " +xhr.readyState); //***********
+		xhr.send(formJson);
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState === 4) {
+				console.log("2 " +xhr.readyState); //***********
+
+				if (xhr.status === 201) {
+					console.log("3 " +xhr.readyState); //***********
+					document.location.reload();
+
+				} else if (xhr.status !== 200) {
+					console.error(xhr.status + ': ' + xhr.responseText);
+				}
+			}
+		};
+	}
+
+}
+
+function deleteEntry(e){
+	e.preventDefault();
+	let inpt = confirm("Are you sure you want to delete the content?");
+	if (inpt){
+		let ed = e.target;
+		let eid = ed.id;
+		console.log("delete");
+		let dive = document.getElementById("detail");
+		let id = dive.firstElementChild.textContent;
+		var xhr = new XMLHttpRequest();
+		xhr.withCredentials = true;
+		xhr.open('DELETE', "/api/expenses/" + id);
+		xhr.setRequestHeader("Content-Type", "application/json");
+		xhr.send(null);
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState === 4) {
+
+				if (xhr.status === 201) {
+					document.location.reload();
+
+				} else if (xhr.status !== 200) {
+					console.error(xhr.status + ': ' + xhr.responseText);
+				}
+			}
+		};
+	}
+}
