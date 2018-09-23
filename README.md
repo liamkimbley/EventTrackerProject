@@ -4,6 +4,11 @@ This is our second exposure to Spring REST technologies. For the initial project
 
 ### Update
 
+After the first week of JavaScript, we are applying this technology to this project. The goal is to render a front end to allow a user to interact with the database. Using JavaScript, we are to capture the user's input and forward it to the REST framework already in place.
+
+Completing the project in steps like this was to show how the front end is completely separate from the back end. Visualization is not a priority for this project. The primary objective is to understand how to tie these technologies together.
+
+
 ### Technologies Used
 * CRUD
 * Postman
@@ -17,3 +22,8 @@ This is our second exposure to Spring REST technologies. For the initial project
 * application.properties
 * Request and Response Objects
 * JSON
+* HTML
+* JavaScript
+* Event Listeners
+* XMLHttpRequest
+* Dynamic Rendering
