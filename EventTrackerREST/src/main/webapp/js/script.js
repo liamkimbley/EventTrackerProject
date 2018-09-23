@@ -3,7 +3,7 @@ window.addEventListener('load', pageLoad);
 function pageLoad(e) {
   console.log("loaded");
 
-  var xhr = new XMLHttpRequest();
+  let xhr = new XMLHttpRequest();
   xhr.open('GET', "/api/expenses");
   // true can be left off. it will default to true. but don't set to false ===
   // response blocking
@@ -77,22 +77,6 @@ function pageLoad(e) {
 								 document.getElementById("ebtn").style = "";
 								 document.getElementById("dbtn").style = "";
 
-								//  if (pdiv.lastElementChild.name !== "delete"){
-								// 	 let subInput = document.createElement("input");
-								//    subInput.name = "edit";
-								//    subInput.type = "submit";
-								// 	 subInput.id = "subId";
-								// 	 subInput.onClick = function(e){
-								// 		 console.log("edit");
-								// 	 };
-								//    subInput.value = "Edit Entry";
-								//    pdiv.appendChild(subInput);
-								// 	 let delInput = document.createElement("input");
-								//    delInput.name = "delete";
-								//    delInput.type = "submit";
-								//    delInput.value = "Delete Entry";
-								//    pdiv.appendChild(delInput);
-							 // }
 					 })
         }
         console.log(data);
@@ -171,22 +155,17 @@ document.addEventListener('click', function(e) {
         // console.log(err[i]);
       }
     } else {
-      // console.log(name);
-      // console.log(reason);
-      // let form = ;
-			// console.log(form);
 			let formJson = JSON.stringify({
 				"name": name,
 				"price": price,
 				"description": desc,
 				"reason": reason
 			});
-      var xhr = new XMLHttpRequest();
+      let xhr = new XMLHttpRequest();
 			xhr.withCredentials = true;
 			console.log(formJson);
       xhr.open('POST', "/api/expenses");
  			xhr.setRequestHeader("Content-Type", "application/json");
-			console.log("1 " +xhr.readyState); //***********
 			xhr.send(formJson);
       xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
@@ -204,10 +183,16 @@ document.addEventListener('click', function(e) {
     }
 
   };
+
+  if (e.target && e.target.name === 'submitEdit') {
+    e.preventDefault();
+		editEntry(e);
+
+  };
 }); // ********************
 
 var editBtn = document.getElementById('ebtn');
-editBtn.addEventListener("click", editEntry);
+editBtn.addEventListener("click", editForm);
 var delBtn = document.getElementById('dbtn');
 delBtn.addEventListener("click", deleteEntry);
 
@@ -223,22 +208,21 @@ function formPop(str, dub) {
 };
 
 function editEntry(e){
-	e.preventDefault();
 	let ed = e.target;
 	let eid = ed.id;
 	console.log("edit");
-	let dive = document.getElementById("detail");
-	let id = dive.firstElementChild.textContent;
-	let name = dive.firstElementChild.nextElementSibling.nextElementSibling.textContent;
-	let price = dive.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.textContent;
-	let reason = dive.lastElementChild.previousElementSibling.previousElementSibling.previousElementSibling.textContent;
-	let desc = dive.lastElementChild.previousElementSibling.previousElementSibling.textContent;
-	console.log(price);
-	let pre = parseFloat(price);
+	let id = document.getElementById("entryId").textContent;
+	let editThis = document.getElementById("editFormID");
+	let name = document.getElementById("editFormID").firstElementChild.nextElementSibling.value;
+	let pre = parseFloat(document.getElementById("editFormID").firstElementChild.nextElementSibling.nextElementSibling.value);
+	let reas = document.getElementById("editFormID").firstElementChild.nextElementSibling.nextElementSibling.value
+	let desc = document.getElementById("editFormID").lastElementChild.previousElementSibling.value;
 	let err = formPop(name, pre);
 
 	console.log(name);
-	console.log(reason);
+	console.log(pre);
+	console.log(id);
+
 	if (err.length > 0) {
 		let divForm = document.getElementById("formDiv");
 		let ol = document.createElement("ol");
@@ -252,22 +236,18 @@ function editEntry(e){
 			// console.log(err[i]);
 		}
 	} else {
-		// console.log(name);
-		// console.log(reason);
-		// let form = ;
-		// console.log(form);
 		let formJson = JSON.stringify({
+			"id": id,
 			"name": name,
-			"price": price,
+			"price": pre,
 			"description": desc,
-			"reason": reason
+			"reason": reas
 		});
-		var xhr = new XMLHttpRequest();
+
+		let xhr = new XMLHttpRequest();
 		xhr.withCredentials = true;
-		console.log(formJson);
 		xhr.open('PUT', "/api/expenses/" + id);
 		xhr.setRequestHeader("Content-Type", "application/json");
-		console.log("1 " +xhr.readyState); //***********
 		xhr.send(formJson);
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === 4) {
@@ -295,7 +275,7 @@ function deleteEntry(e){
 		console.log("delete");
 		let dive = document.getElementById("detail");
 		let id = dive.firstElementChild.textContent;
-		var xhr = new XMLHttpRequest();
+		let xhr = new XMLHttpRequest();
 		xhr.withCredentials = true;
 		xhr.open('DELETE', "/api/expenses/" + id);
 		xhr.setRequestHeader("Content-Type", "application/json");
@@ -313,3 +293,49 @@ function deleteEntry(e){
 		};
 	}
 }
+
+function editForm(e) {
+  btn1.removeEventListener("click", showForm);
+	console.log("Edit form");
+  let divForm = document.getElementById("formDiv");
+  let form = document.createElement("form");
+  form.name = "editForm";
+	form.id = "editFormID";
+	let idInput = document.createElement("input");
+  idInput.name = "id";
+  idInput.type = "text";
+	idInput.id = "editId";
+  idInput.value = document.getElementById("entryId").textContent;
+	idInput.hidden = "hidden";
+  form.appendChild(idInput);
+  let nameInput = document.createElement("input");
+  nameInput.name = "name";
+  nameInput.type = "text";
+	nameInput.id = "editName";
+  nameInput.value = document.getElementById("name").textContent;
+  form.appendChild(nameInput);
+  let priceInput = document.createElement("input");
+  priceInput.name = "price";
+  priceInput.type = "text";
+	priceInput.id = "editPrice";
+  priceInput.value = document.getElementById("price").textContent;
+  form.appendChild(priceInput);
+  let resInput = document.createElement("input");
+  resInput.name = "reason";
+  resInput.type = "text";
+	resInput.id = "editRes";
+  resInput.value = document.getElementById("reason").textContent;
+  form.appendChild(resInput);
+  let descInput = document.createElement("input");
+  descInput.name = "description";
+  descInput.type = "text";
+	descInput.id = "editDesc";
+  descInput.value =  document.getElementById("desc").textContent;
+  form.appendChild(descInput);
+  let subInput = document.createElement("input");
+  subInput.name = "submitEdit";
+  subInput.type = "submit";
+  subInput.value = "Submit";
+  form.appendChild(subInput);
+  divForm.appendChild(form);
+};
