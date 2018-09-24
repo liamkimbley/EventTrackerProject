@@ -187,9 +187,8 @@ document.addEventListener('click', function(e) {
   if (e.target && e.target.name === 'submitEdit') {
     e.preventDefault();
 		editEntry(e);
-
   };
-}); // ********************
+});
 
 var editBtn = document.getElementById('ebtn');
 editBtn.addEventListener("click", editForm);
