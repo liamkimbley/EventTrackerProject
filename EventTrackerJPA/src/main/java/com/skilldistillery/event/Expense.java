@@ -1,13 +1,13 @@
 package com.skilldistillery.event;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import org.hibernate.annotations.CreationTimestamp;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Expense {
@@ -21,13 +21,12 @@ public class Expense {
 	private String description;
 	private String reason;
 
-	@CreationTimestamp
-	private Date date;
+	private LocalDate date;
 
 	public Expense() {
 	}
 
-	public Expense(String name, double price, String description, String reason, Date date) {
+	public Expense(String name, double price, String description, String reason, LocalDate date) {
 		this.name = name;
 		this.price = price;
 		this.description = description;
@@ -75,11 +74,11 @@ public class Expense {
 		this.reason = reason;
 	}
 
-	public Date getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 

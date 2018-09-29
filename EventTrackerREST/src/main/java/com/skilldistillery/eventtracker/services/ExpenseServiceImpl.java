@@ -1,6 +1,6 @@
 package com.skilldistillery.eventtracker.services;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +39,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 			if (expense.getReason() != null && !expense.getReason().equals("")) {
 				exp.setReason(expense.getReason());
 			}
-			exp.setDate(new Date());
+			exp.setDate(LocalDate.now());
 		}
 
 		return expRepo.saveAndFlush(exp);
@@ -74,6 +74,9 @@ public class ExpenseServiceImpl implements ExpenseService {
 			if (expense.getReason() != null && !expense.getReason().equals("")) {
 				exp.setReason(expense.getReason());
 			}
+			if (expense.getDate() != null) {
+				exp.setDate(expense.getDate());
+			}
 			return expRepo.saveAndFlush(exp);
 
 		}
@@ -98,6 +101,9 @@ public class ExpenseServiceImpl implements ExpenseService {
 			}
 			if (expense.getReason() != null && !expense.getReason().equals("")) {
 				exp.setReason(expense.getReason());
+			}
+			if (expense.getDate() != null) {
+				exp.setDate(expense.getDate());
 			}
 			return expRepo.saveAndFlush(exp);
 
@@ -125,7 +131,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 	}
 
 	@Override
-	public List<Expense> findByDate(Date date) {
+	public List<Expense> findByDate(LocalDate date) {
 		return expRepo.findByDate(date);
 
 	}

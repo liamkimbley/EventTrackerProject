@@ -24,6 +24,13 @@ Completing the project in steps like this was to show how the front end is compl
 * JSON
 * HTML
 * JavaScript
-  * Event Listeners
-  * XMLHttpRequest
-  * Dynamic Rendering
+* Event Listeners
+* XMLHttpRequest
+* Dynamic Rendering
+* Angular
+* Components
+* Services
+* Observables
+* node.js
+* TypeScript
+* Angular Command Line

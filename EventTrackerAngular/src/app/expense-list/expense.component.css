@@ -1,0 +1,22 @@
+table {
+  border-collapse: collapse;
+  width: 80%;
+}
+
+tr {
+  border-bottom: 1px solid gainsboro;
+}
+
+tbody:hover {
+  background-color: gainsboro;
+}
+
+thead {
+  background-color: black;
+  color: white;
+}
+
+.btn-danger {
+  color: white;
+  background-color: crimson;
+}

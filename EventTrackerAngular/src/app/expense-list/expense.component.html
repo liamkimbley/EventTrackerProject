@@ -1,0 +1,60 @@
+<h1>{{title}}</h1>
+
+
+<div *ngIf="selected && !editExp" >
+  <button class="btn-dark btn-outline-primary" (click)=displayTable()>Back</button>
+  <p>ID: {{selected.id}}</p>
+  <p>Date: {{selected.date | date}}</p>
+  <p>{{selected.name}}</p>
+  <p>{{selected.description}}</p>
+  <p>Amount: ${{selected.price}}</p>
+  <p>Reason: {{selected.reason}}</p>
+  <button class="btn-dark btn-outline-primary" (click)=setEditExp()>Edit</button>
+  <button class="btn-dark btn-outline-primary" name="delete" type="submit" (click)="deleteExp(selected.id)">Delete</button>
+</div>
+
+<div *ngIf=editExp>
+    <form>
+      <input type="text" name="name" [(ngModel)]="editExp.name" /><br>
+      <input type="text" name="description" [(ngModel)]="editExp.description" /><br>
+      <input type="text" name="reason" [(ngModel)]="editExp.reason" /> <br>
+      <input type="date" name="date" [(ngModel)]="editExp.date" /> <br>
+      <button class="btn-outline-primary" (click)="updateExp(editExp)" >Save</button>
+      <button class="btn-outline-primary" (click)="editExp = null" >Cancel</button>
+    </form>
+  </div>
+
+<div *ngIf="!selected">
+  <h3>Add New Expense</h3>
+    <form>
+      <input type="text" name="name" placeholder="Expense Name" [(ngModel)]="newExp.name" />
+      <input type="number" name="price" placeholder="Amount Spent" [(ngModel)]="newExp.price" />
+      <input class="btn-dark" type="submit" value="Add Expense" (click)="addExpense()" />
+    </form>
+    <br>
+  </div>
+
+<div *ngIf=!selected>
+  <h3><p>Total Expenses: ${{getTotalExpenses()}}</p>
+  <p>Entries: {{getNumberofExpenses()}}</p></h3>
+  <table class="table table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let t of expenses">
+      <tr>
+        <td>{{t.id}}</td>
+        <td (click)=displayExpense(t)>{{t.date | date}}</td>
+        <td (click)=displayExpense(t)>{{t.name}}</td>
+        <td (click)=displayExpense(t)>${{t.price | number: '1.2'}}</td>
+        <td><button class="btn-danger" name="delete" type="submit" (click)="deleteExp(t.id)">X</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

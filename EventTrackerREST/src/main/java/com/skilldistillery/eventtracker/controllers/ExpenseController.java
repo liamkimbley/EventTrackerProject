@@ -1,11 +1,12 @@
 package com.skilldistillery.eventtracker.controllers;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import com.skilldistillery.eventtracker.services.ExpenseService;
 
 @RestController
 @RequestMapping("api")
+@CrossOrigin({"*", "http://localhost:4201"})
 public class ExpenseController {
 
 	@Autowired
@@ -28,10 +30,10 @@ public class ExpenseController {
 		return expServ.index();
 	}
 	
-	@RequestMapping(path="expenses/total", method=RequestMethod.GET)
-	public double total(){
-		return expServ.findTotalExpenses();
-	}
+//	@RequestMapping(path="expenses/total", method=RequestMethod.GET)
+//	public double total(){
+//		return expServ.findTotalExpenses();
+//	}
 	
 	@RequestMapping(path="expenses/{eid}", method=RequestMethod.GET)
 	public Expense getSingleExpense(@PathVariable int eid) {
@@ -44,7 +46,7 @@ public class ExpenseController {
 	}
 	
 	@RequestMapping(path="expenses/search/date/{date}", method=RequestMethod.GET)
-	public List<Expense> getExpensesByDate(@PathVariable Date date) {
+	public List<Expense> getExpensesByDate(@PathVariable LocalDate date) {
 		return expServ.findByDate(date);
 	}
 	
